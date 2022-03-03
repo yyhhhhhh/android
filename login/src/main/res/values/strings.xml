@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">login</string>
+    <string name="message">登录成功</string>
+</resources>
