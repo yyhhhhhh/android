@@ -1,9 +1,13 @@
 package com.yyh.bmi;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.yyh.bmi.databinding.ActivityMainBinding;
@@ -34,5 +38,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             binding.result.setText(BMIUtils.getBMIAndFemale(BMIUtils.getBMI(weight,height)));
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.clear){
+            binding.weight.setText("");
+            binding.height.setText("");
+            binding.bmi.setText("");
+            binding.result.setText("");
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
