@@ -11,21 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yyh.crimelntent.databinding.FragmentCrimeBinding;
+import com.yyh.crimelntent.entity.Crime;
+
+import java.io.Serializable;
 
 public class CrimeFragment extends Fragment {
 
     private FragmentCrimeBinding binding;
 
-    private static final String ARG_PARAM1 = "param1";
+    public CrimeFragment() {
+    }
 
-    private String mParam1;
-
-
-    public static CrimeFragment newInstance(String param1) {
+    public static CrimeFragment newInstance() {
         CrimeFragment fragment = new CrimeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -33,7 +31,6 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
         }
     }
 
@@ -42,21 +39,28 @@ public class CrimeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentCrimeBinding.inflate(inflater,container,false);
-        if(null != mParam1){
-            binding.btnDate.setText(mParam1);
-        }
+
         binding.btnDate.setOnClickListener(view ->{
             DatePickerFragment pickerFragment = new DatePickerFragment();
             pickerFragment.show(getFragmentManager(),"date");
         });
-        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
+        getParentFragmentManager().setFragmentResultListener("bundle", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                int year = result.getInt("year");
-                int month = result.getInt("month");
-                int day = result.getInt("day");
-                binding.btnDate.setText(year+"年"+month+"月"+day+"日");
+                Crime crime = (Crime) result.getSerializable("result");
+                binding.crimeTit.setText(crime.getTitle());
+                binding.btnDate.setText(crime.getDate());
+                binding.ckIs.setChecked(crime.getSolved());
             }
+        });
+        binding.btnConfirm.setOnClickListener(view -> {
+            Crime crime = new Crime();
+            crime.setTitle(binding.crimeTit.getText().toString());
+            crime.setDate(binding.btnDate.getText().toString());
+            crime.setSolved(binding.ckIs.isChecked());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("result",crime);
+            getParentFragmentManager().setFragmentResult("bundle",bundle);
         });
         return binding.getRoot();
     }

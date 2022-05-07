@@ -20,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        CrimeFragment crimeFragment = CrimeFragment.newInstance(String.valueOf(new Date()));
+        //CrimeFragment crimeFragment = CrimeFragment.newInstance(String.valueOf(new Date()));
 
-        replaceFragment(R.id.fragment_tag,crimeFragment);
+        CrimeListFragment crimeListFragment = CrimeListFragment.newInstance();
+
+        replaceFragment(R.id.frag,crimeListFragment);
 
     }
 

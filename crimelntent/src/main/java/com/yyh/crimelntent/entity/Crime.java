@@ -1,6 +1,10 @@
 package com.yyh.crimelntent.entity;
 
-public class Crime {
+import java.io.Serializable;
+
+public class Crime implements Serializable {
+
+    private static final long serialVersionUID = -4651679128713510684L;
 
     private String title;
 
